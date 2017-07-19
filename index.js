@@ -1,25 +1,43 @@
 import { h, app } from "hyperapp"
 
-function Main({ selectedAircraft }) {
-    if(selectedAircraft == null) {
-        return (
-            <main>
-                <span>Loading</span>
-            </main>
-        )
+const Selection = ({ state, actions }) => {
+    let name = ''
+    if (state.selectedAircraft !== null) {
+        name = state.selectedAircraft.name
     }
     return (
-        <main>
-            <h1>{ selectedAircraft.name }</h1>
-            <object type="image/svg+xml" id="svg" data={ 'aircraft/' + selectedAircraft.image }/>
-            { selectedAircraft.procedures.map(procedure => (
-                <List list={ procedure } />
-            ))}
-            { selectedAircraft.systems.map(system => (
-                <List list={ system } />
-            ))}
-        </main>
+        <section>
+            <select value={ name }
+                    onchange={ event => {
+                        actions.chooseAircraft(event.target.value)
+                    }}
+            >
+                { state.aircraft.map(aircraft => <option value={ aircraft.name }>{ aircraft.name }</option>) }
+            </select>
+        </section>
     )
+}
+
+function Main({ state, actions }) {
+    if (state.selectedAircraft != null) {
+        return (
+            <main>
+                <h1>{ state.selectedAircraft.name }</h1>
+                <object type="image/svg+xml" id="svg" data={ 'aircraft/' + state.selectedAircraft.image }/>
+                <Selection state={ state } actions={ actions }/>
+                { state.selectedAircraft.procedures.map(procedure => (
+                    <List list={ procedure } />
+                ))}
+                { state.selectedAircraft.systems.map(system => (
+                    <List list={ system } />
+                ))}
+            </main>
+        )
+    } else {
+        return (
+            <Selection state={ state } actions={ actions }/>
+        )
+    }
 }
 
 function List({ list }) {
@@ -52,7 +70,7 @@ app({
 
     view: (state, actions) => {
         return (
-            <Main selectedAircraft={ state.selectedAircraft }/>
+            <Main state={ state } actions={ actions } electedAircraft={ state.selectedAircraft }/>
         )
     },
 
@@ -68,8 +86,15 @@ app({
                 )
             )
         },
+
         updateAircraft: (state, actions, json) => {
-            return { aircraft : [json], selectedAircraft: json }
+            state.aircraft.push(json)
+            state.aircraft.sort()
+            return { aircraft : state.aircraft }
+        },
+
+        chooseAircraft: (state, actions, choice) => {
+            return { selectedAircraft: state.aircraft.filter( value => value.name == choice )[0] }
         }
     },
 

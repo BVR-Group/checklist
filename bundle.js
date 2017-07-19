@@ -309,40 +309,64 @@ function app(app) {
   }
 }
 
-function Main(_ref) {
-    var selectedAircraft = _ref.selectedAircraft;
+var Selection = function Selection(_ref) {
+    var state = _ref.state,
+        actions = _ref.actions;
 
-    if (selectedAircraft == null) {
+    var name = '';
+    if (state.selectedAircraft !== null) {
+        name = state.selectedAircraft.name;
+    }
+    return h(
+        "section",
+        null,
+        h(
+            "select",
+            { value: name,
+                onchange: function onchange(event) {
+                    actions.chooseAircraft(event.target.value);
+                }
+            },
+            state.aircraft.map(function (aircraft) {
+                return h(
+                    "option",
+                    { value: aircraft.name },
+                    aircraft.name
+                );
+            })
+        )
+    );
+};
+
+function Main(_ref2) {
+    var state = _ref2.state,
+        actions = _ref2.actions;
+
+    if (state.selectedAircraft != null) {
         return h(
             "main",
             null,
             h(
-                "span",
+                "h1",
                 null,
-                "Loading"
-            )
+                state.selectedAircraft.name
+            ),
+            h("object", { type: "image/svg+xml", id: "svg", data: 'aircraft/' + state.selectedAircraft.image }),
+            h(Selection, { state: state, actions: actions }),
+            state.selectedAircraft.procedures.map(function (procedure) {
+                return h(List, { list: procedure });
+            }),
+            state.selectedAircraft.systems.map(function (system) {
+                return h(List, { list: system });
+            })
         );
+    } else {
+        return h(Selection, { state: state, actions: actions });
     }
-    return h(
-        "main",
-        null,
-        h(
-            "h1",
-            null,
-            selectedAircraft.name
-        ),
-        h("object", { type: "image/svg+xml", id: "svg", data: 'aircraft/' + selectedAircraft.image }),
-        selectedAircraft.procedures.map(function (procedure) {
-            return h(List, { list: procedure });
-        }),
-        selectedAircraft.systems.map(function (system) {
-            return h(List, { list: system });
-        })
-    );
 }
 
-function List(_ref2) {
-    var list = _ref2.list;
+function List(_ref3) {
+    var list = _ref3.list;
 
     return h(
         "section",
@@ -383,7 +407,7 @@ app({
     },
 
     view: function view(state, actions) {
-        return h(Main, { selectedAircraft: state.selectedAircraft });
+        return h(Main, { state: state, actions: actions, electedAircraft: state.selectedAircraft });
     },
 
     actions: {
@@ -400,8 +424,17 @@ app({
                 });
             });
         },
+
         updateAircraft: function updateAircraft(state, actions, json) {
-            return { aircraft: [json], selectedAircraft: json };
+            state.aircraft.push(json);
+            state.aircraft.sort();
+            return { aircraft: state.aircraft };
+        },
+
+        chooseAircraft: function chooseAircraft(state, actions, choice) {
+            return { selectedAircraft: state.aircraft.filter(function (value) {
+                    return value.name == choice;
+                })[0] };
         }
     },
 
