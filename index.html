@@ -15,7 +15,22 @@
             grid-template-rows: repeat(16, 6.25%);
             max-width: 1024px;
             min-width: 360px;
-            margin: 0 auto;
+            margin: 1.5em auto;
+        }
+        a {
+            cursor: pointer;
+        }
+        a.closeButton {
+            font-family: "Wingdings";
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            height: 45px;
+            width: 45px;
+            line-height: 45px;
+            text-align: center;
+            font-size: 2em;
         }
         h1 {
             text-transform: uppercase;
@@ -42,37 +57,44 @@
             opacity: 0.15;
             transform: rotate(-45deg);
         }
-        dl, section {
+        dl, ul, section {
             grid-column-start: 2;
-            grid-column-end: 16;
+            grid-column-end: 17;
         }
-        dl {
+        dl, ul {
             display: grid;
+            grid-template-columns: repeat(16, 6.25%);
         }
-        dt {
+        .procedure  dt {
+            display: list-item;
+            list-style-type: decimal-leading-zero;
+            list-style-position: outside;
+        }
+        dt, li {
             grid-column-start: 2;
-            grid-column-end: 8;
+            grid-column-end: 13;
         }
         dd {
-            grid-column-end: 9;
+            grid-column-start: 13;
+            grid-column-end: 17;
             margin: 0;
             overflow: hidden;
+            font-size: 1rem;
+            align-content: center;
+            line-height: 1.75rem;
         }
-        dt:nth-child(4n+1), dt:nth-child(4n+1) + dd {
+        li:nth-child(4n+1), dt:nth-child(4n+1), dt:nth-child(4n+1) + dd {
             background-color: rgba(209, 79, 65, 0.15);
         }
-        select {
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li a {
+            display: block;
             width: 100%;
-            display: grid;
-            grid-column-start: 1;
-            grid-column-end: 12;
-            background-color: rgb(209, 79, 65);
-            color: #1d1f21;
-            border: none;
-            font-size: 1.5em;
-            padding-left: 0.5;
-            text-transform: uppercase;
-            font-family: "orator-std";
+            font-size: 1.25em;
         }
     </style>
 </head>

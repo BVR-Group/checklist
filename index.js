@@ -7,28 +7,29 @@ const Selection = ({ state, actions }) => {
     }
     return (
         <section>
-            <select value={ name }
-                    onchange={ event => {
-                        actions.chooseAircraft(event.target.value)
-                    }}
-            >
-                { state.aircraft.map(aircraft => <option value={ aircraft.name }>{ aircraft.name }</option>) }
-            </select>
+            <h1>Aircraft</h1>
+            <ul>
+            { state.aircraft.map(aircraft =>
+                <li><a onclick={ _=> actions.chooseAircraft(aircraft.name) }>{ aircraft.name }</a></li>
+            )}
+            </ul>
         </section>
     )
 }
+const CloseButton = ({ actions }) => (<a class='closeButton' onclick={ _ => actions.chooseAircraft() }>&#128937;</a>)
 
-function Main({ state, actions }) {
+const Main = ({ state, actions }) => {
     if (state.selectedAircraft != null) {
         return (
             <main>
+                <CloseButton actions={ actions } />
+                <h1>{ state.selectedAircraft.name }</h1>
                 <object type="image/svg+xml" id="svg" data={ 'aircraft/' + state.selectedAircraft.image }/>
-                <Selection state={ state } actions={ actions }/>
                 { state.selectedAircraft.procedures.map(procedure => (
-                    <List list={ procedure } />
+                    <List className='procedure' list={ procedure } />
                 ))}
                 { state.selectedAircraft.systems.map(system => (
-                    <List list={ system } />
+                    <List className='system' list={ system } />
                 ))}
             </main>
         )
@@ -41,27 +42,20 @@ function Main({ state, actions }) {
     }
 }
 
-function List({ list }) {
-    return (
-        <section>
-            <h1>{ list.name }</h1>
-            <dl>
-                { list.items.map(item =>
-                    Object.keys(item).map(key =>
-                        Item(item, key)
-                    )
-                )}
-            </dl>
-        </section>
-    )
-}
+const List = ({ className, list }) => (
+    <section class={ className }>
+        <h1>{ list.name }</h1>
+        <dl>
+            { list.items.map(item =>
+                Object.keys(item).map(key =>
+                    ListItem(item, key)
+                )
+            )}
+        </dl>
+    </section>
+)
 
-function Item(item, name) {
-    return ([
-        <dt>{ name }</dt>,
-        <dd>{ item[name] }</dd>
-    ])
-}
+const ListItem = (item, name) => ([<dt>{ name }</dt>, <dd>{ item[name] }</dd>])
 
 app({
     state: {
@@ -95,7 +89,8 @@ app({
         },
 
         chooseAircraft: (state, actions, choice) => {
-            return { selectedAircraft: state.aircraft.filter( value => value.name == choice )[0] }
+            const aircraft = choice !== undefined ? state.aircraft.filter( value => value.name == choice )[0] : null
+            return { selectedAircraft: aircraft } 
         }
     },
 

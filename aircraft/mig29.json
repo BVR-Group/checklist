@@ -1,11 +1,11 @@
 {
-  "name": "Mig-29",
+  "name": "MiG-29",
   "image": "mig29.svg",
   "procedures": [
     {
       "name": "Power Up",
       "items": [
-        {"Electric Power Switch": "RShift - L"},
+        {"Electric Power Switch - On": "RShift - L"},
         {"Throttle - Idle": ""},
         {"Engine Left Start": "RAlt - Home"},
         {"Engine Right Start": "RCtrl - Home"},
@@ -47,10 +47,10 @@
     {
       "name": "Countermeasures",
       "items": [
-        {"Countermeasures Chaff Dispense": "Insert"},
-        {"Countermeasures Continuously Dispense": "LShift - Q"},
-        {"Countermeasures Flares Dispense": "Delete"},
-        {"Countermeasures Release": "Q"},
+        {"Chaff Dispense": "Insert"},
+        {"Continuously Dispense": "LShift - Q"},
+        {"Flares Dispense": "Delete"},
+        {"Release": "Q"},
         {"ECM": "E"}
       ]
     }

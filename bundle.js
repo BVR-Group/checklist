@@ -318,86 +318,108 @@ var Selection = function Selection(_ref) {
         name = state.selectedAircraft.name;
     }
     return h(
-        "section",
+        'section',
         null,
         h(
-            "select",
-            { value: name,
-                onchange: function onchange(event) {
-                    actions.chooseAircraft(event.target.value);
-                }
-            },
+            'h1',
+            null,
+            'Aircraft'
+        ),
+        h(
+            'ul',
+            null,
             state.aircraft.map(function (aircraft) {
                 return h(
-                    "option",
-                    { value: aircraft.name },
-                    aircraft.name
+                    'li',
+                    null,
+                    h(
+                        'a',
+                        { onclick: function onclick(_) {
+                                return actions.chooseAircraft(aircraft.name);
+                            } },
+                        aircraft.name
+                    )
                 );
             })
         )
     );
 };
+var CloseButton = function CloseButton(_ref2) {
+    var actions = _ref2.actions;
+    return h(
+        'a',
+        { 'class': 'closeButton', onclick: function onclick(_) {
+                return actions.chooseAircraft();
+            } },
+        '\uD83D\uDFA9'
+    );
+};
 
-function Main(_ref2) {
-    var state = _ref2.state,
-        actions = _ref2.actions;
+var Main = function Main(_ref3) {
+    var state = _ref3.state,
+        actions = _ref3.actions;
 
     if (state.selectedAircraft != null) {
         return h(
-            "main",
+            'main',
             null,
-            h("object", { type: "image/svg+xml", id: "svg", data: 'aircraft/' + state.selectedAircraft.image }),
-            h(Selection, { state: state, actions: actions }),
+            h(CloseButton, { actions: actions }),
+            h(
+                'h1',
+                null,
+                state.selectedAircraft.name
+            ),
+            h('object', { type: 'image/svg+xml', id: 'svg', data: 'aircraft/' + state.selectedAircraft.image }),
             state.selectedAircraft.procedures.map(function (procedure) {
-                return h(List, { list: procedure });
+                return h(List, { className: 'procedure', list: procedure });
             }),
             state.selectedAircraft.systems.map(function (system) {
-                return h(List, { list: system });
+                return h(List, { className: 'system', list: system });
             })
         );
     } else {
         return h(
-            "main",
+            'main',
             null,
             h(Selection, { state: state, actions: actions })
         );
     }
-}
+};
 
-function List(_ref3) {
-    var list = _ref3.list;
-
+var List = function List(_ref4) {
+    var className = _ref4.className,
+        list = _ref4.list;
     return h(
-        "section",
-        null,
+        'section',
+        { 'class': className },
         h(
-            "h1",
+            'h1',
             null,
             list.name
         ),
         h(
-            "dl",
+            'dl',
             null,
             list.items.map(function (item) {
                 return Object.keys(item).map(function (key) {
-                    return Item(item, key);
+                    return ListItem(item, key);
                 });
             })
         )
     );
-}
+};
 
-function Item(item, name) {
+var ListItem = function ListItem(item, name) {
     return [h(
-        "dt",
+        'dt',
         null,
         name
     ), h(
-        "dd",
+        'dd',
         null,
         item[name]
     )];
-}
+};
 
 app({
     state: {
@@ -415,7 +437,7 @@ app({
                 return response.json();
             }).then(function (json) {
                 return json.map(function (path) {
-                    return fetch("/aircraft/" + path).then(function (response) {
+                    return fetch('/aircraft/' + path).then(function (response) {
                         return response.json();
                     }).then(function (json) {
                         return actions.updateAircraft(json);
@@ -431,9 +453,10 @@ app({
         },
 
         chooseAircraft: function chooseAircraft(state, actions, choice) {
-            return { selectedAircraft: state.aircraft.filter(function (value) {
-                    return value.name == choice;
-                })[0] };
+            var aircraft = choice !== undefined ? state.aircraft.filter(function (value) {
+                return value.name == choice;
+            })[0] : null;
+            return { selectedAircraft: aircraft };
         }
     },
 
