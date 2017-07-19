@@ -22,7 +22,6 @@ function Main({ state, actions }) {
     if (state.selectedAircraft != null) {
         return (
             <main>
-                <h1>{ state.selectedAircraft.name }</h1>
                 <object type="image/svg+xml" id="svg" data={ 'aircraft/' + state.selectedAircraft.image }/>
                 <Selection state={ state } actions={ actions }/>
                 { state.selectedAircraft.procedures.map(procedure => (
@@ -35,7 +34,9 @@ function Main({ state, actions }) {
         )
     } else {
         return (
-            <Selection state={ state } actions={ actions }/>
+            <main>
+                <Selection state={ state } actions={ actions }/>
+            </main>
         )
     }
 }

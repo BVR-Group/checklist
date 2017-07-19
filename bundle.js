@@ -346,11 +346,6 @@ function Main(_ref2) {
         return h(
             "main",
             null,
-            h(
-                "h1",
-                null,
-                state.selectedAircraft.name
-            ),
             h("object", { type: "image/svg+xml", id: "svg", data: 'aircraft/' + state.selectedAircraft.image }),
             h(Selection, { state: state, actions: actions }),
             state.selectedAircraft.procedures.map(function (procedure) {
@@ -361,7 +356,11 @@ function Main(_ref2) {
             })
         );
     } else {
-        return h(Selection, { state: state, actions: actions });
+        return h(
+            "main",
+            null,
+            h(Selection, { state: state, actions: actions })
+        );
     }
 }
 
