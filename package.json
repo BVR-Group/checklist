@@ -1,0 +1,27 @@
+{
+  "name": "dcs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "hyperapp": "^0.10.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "livereload": "^0.6.2",
+    "rollup": "^0.45.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-livereload": "^0.4.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-serve": "^0.4.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.3.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "rollup -cf iife -i index.js -o bundle.js",
+    "dev": "rollup -cf iife -w -i index.js -o bundle.js"
+  }
+}

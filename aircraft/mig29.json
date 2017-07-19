@@ -1,0 +1,58 @@
+{
+  "name": "Mig-29",
+  "image": "mig29.svg",
+  "procedures": [
+    {
+      "name": "Power Up",
+      "items": [
+        {"Electric Power Switch": "RShift - L"},
+        {"Throttle - Idle": ""},
+        {"Engine Left Start": "RAlt - Home"},
+        {"Engine Right Start": "RCtrl - Home"},
+        {"Canopy Close": "LCtrl - C"}
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "name": "Engines",
+      "items": [
+        {"Engine Left Start " :"RAlt - Home"},
+        {"Engine Left Stop" :"RAlt - End"},
+        {"Engine Right Start" :"RCtrl - Home"},
+        {"Engine Right Stop " :"RCtrl - End"},
+        {"Engines Start" :"RShift - Home"},
+        {"Engines Stop" :"RShift - End"},
+        {"Fuel Dump": "R"},
+        {"Jettison Fuel Tanks": "LAlt - R"}
+      ]
+    },
+    {
+      "name": "HUD",
+      "items": [
+        {"(1) Navigation Modes": "1"},
+        {"(2) Beyond Visual Range Mode": "2"},
+        {"(3) Close Air Combat Vertical Scan Mode": "3"},
+        {"(4) Close Air Combat Bore Mode": "4"},
+        {"(5) Close Air Combat HMD Helmet Mode": "5"},
+        {"(6) Longitudinal Missile Aiming Mode": "6"},
+        {"(7) Air-To-Ground Mode": "7"},
+        {"(8) Gunsight Reticle Switch": "8"},
+        {"HUD Brightness down": "RAlt - RShift - H"},
+        {"HUD Brightness up": "RCtrl - RShift - H"},
+        {"HUD Color": "RCtrl - H"},
+        {"HUD Filter On Off": "RShift - H"}
+      ]
+    },
+    {
+      "name": "Countermeasures",
+      "items": [
+        {"Countermeasures Chaff Dispense": "Insert"},
+        {"Countermeasures Continuously Dispense": "LShift - Q"},
+        {"Countermeasures Flares Dispense": "Delete"},
+        {"Countermeasures Release": "Q"},
+        {"ECM": "E"}
+      ]
+    }
+  ]
+}

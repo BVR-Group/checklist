@@ -1,0 +1,69 @@
+<html>
+<head>
+    <script src="https://use.typekit.net/iso8obv.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <style>
+        body {
+            font-family: "orator-std";
+            background-color: #1d1f21;
+            color: rgb(209, 79, 65);
+            font-size: 1.3rem;
+        }
+        main {
+            display: grid;
+            grid-template-columns: repeat(16, 6.25%);
+            grid-template-rows: repeat(16, 6.25%);
+            max-width: 1024px;
+            min-width: 360px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-transform: uppercase;
+        }
+        main > h1 {
+            position: absolute;
+            top: 290px;
+            width: 256px;
+            transform: rotate(-90deg);
+            transform-origin: left top 0;
+            text-align: right;
+            line-height: .75em;
+            margin: 0;
+            padding-top: 0.13em;
+        }
+        section > h1 {
+            background-color: rgb(209, 79, 65);
+            color: #1d1f21;
+            padding-left: 0.5em;
+        }
+        object {
+            position: fixed;
+            bottom: 33%;
+            opacity: 0.15;
+            transform: rotate(-45deg);
+        }
+        dl, section {
+            grid-column-start: 2;
+            grid-column-end: 16;
+        }
+        dl {
+            display: grid;
+        }
+        dt {
+            grid-column-start: 2;
+            grid-column-end: 8;
+        }
+        dd {
+            grid-column-end: 9;
+            margin: 0;
+            overflow: hidden;
+        }
+        dt:nth-child(4n+1), dt:nth-child(4n+1) + dd {
+            background-color: rgba(209, 79, 65, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <script src="bundle.js"></script>
+</body>
+</html>

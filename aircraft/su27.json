@@ -1,0 +1,24 @@
+{
+  "name": "SU27",
+  "image": "su27.svg",
+  "procedures": [
+    {
+      "name": "Power Up",
+      "items": [
+        {"Electric Power Switch": "RShift - L"},
+        {"Throttle - Idle": ""},
+        {"Engine Left Start": "RAlt - Home"},
+        {"Engine Right Start": "RCtrl - Home"}
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "name": "Engines",
+      "items": [
+        {"Engine Left Start": "RAlt - Home"},
+        {"Engine Right Start": "RCtrl - Home"}
+      ]
+    }
+  ]
+}
