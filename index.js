@@ -10,13 +10,13 @@ const Selection = ({ state, actions }) => {
             <h1>Aircraft</h1>
             <ul>
             { state.aircraft.map(aircraft =>
-                <li><a onclick={ _=> actions.chooseAircraft(aircraft.name) }>{ aircraft.name }</a></li>
+                <li><a onclick={ _ => actions.chooseAircraft(aircraft.name) }>{ aircraft.name }</a></li>
             )}
             </ul>
         </section>
     )
 }
-const CloseButton = ({ actions }) => (<a class='closeButton' onclick={ _ => actions.chooseAircraft() }>&#128937;</a>)
+const CloseButton = ({ actions }) => (<a class='closeButton' onclick={ _ => actions.chooseAircraft() }>&#x2715;</a>)
 
 const Main = ({ state, actions }) => {
     if (state.selectedAircraft != null) {
@@ -25,11 +25,15 @@ const Main = ({ state, actions }) => {
                 <CloseButton actions={ actions } />
                 <h1>{ state.selectedAircraft.name }</h1>
                 <object type="image/svg+xml" id="svg" data={ 'aircraft/' + state.selectedAircraft.image }/>
+                
                 { state.selectedAircraft.procedures.map(procedure => (
                     <List className='procedure' list={ procedure } />
                 ))}
-                { state.selectedAircraft.systems.map(system => (
-                    <List className='system' list={ system } />
+
+                { state.selectedAircraft.systems.map((system, index) => (
+                    <Transition delay={index / 2}>
+                        <List list={ system } />
+                    </Transition>
                 ))}
             </main>
         )
@@ -56,6 +60,26 @@ const List = ({ className, list }) => (
 )
 
 const ListItem = (item, name) => ([<dt>{ name }</dt>, <dd>{ item[name] }</dd>])
+
+const Transition = (props, children) => {
+    const duration = `duration` in (props || {}) ? props.duration : 0.3
+    const delay = `delay` in (props || {}) ? props.delay : 0
+
+    const animatedChildren = children.map(child => {
+        child.data.style = {
+            transitionDuration: `${duration}s`,
+            transitionDelay: `${delay}s`
+        }
+        child.data.oncreate = element => {
+            element.className = 'start-transition'
+        }
+        child.data.oninsert = element => {
+            element.className = 'end-transition'
+        }
+        return child
+    })
+    return animatedChildren
+}
 
 app({
     state: {

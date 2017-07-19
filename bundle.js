@@ -351,7 +351,7 @@ var CloseButton = function CloseButton(_ref2) {
         { 'class': 'closeButton', onclick: function onclick(_) {
                 return actions.chooseAircraft();
             } },
-        '\uD83D\uDFA9'
+        '\u2715'
     );
 };
 
@@ -373,8 +373,12 @@ var Main = function Main(_ref3) {
             state.selectedAircraft.procedures.map(function (procedure) {
                 return h(List, { className: 'procedure', list: procedure });
             }),
-            state.selectedAircraft.systems.map(function (system) {
-                return h(List, { className: 'system', list: system });
+            state.selectedAircraft.systems.map(function (system, index) {
+                return h(
+                    Transition,
+                    { delay: index / 2 },
+                    h(List, { list: system })
+                );
             })
         );
     } else {
@@ -419,6 +423,26 @@ var ListItem = function ListItem(item, name) {
         null,
         item[name]
     )];
+};
+
+var Transition = function Transition(props, children) {
+    var duration = 'duration' in (props || {}) ? props.duration : 0.3;
+    var delay = 'delay' in (props || {}) ? props.delay : 0;
+
+    var animatedChildren = children.map(function (child) {
+        child.data.style = {
+            transitionDuration: duration + 's',
+            transitionDelay: delay + 's'
+        };
+        child.data.oncreate = function (element) {
+            element.className = 'start-transition';
+        };
+        child.data.oninsert = function (element) {
+            element.className = 'end-transition';
+        };
+        return child;
+    });
+    return animatedChildren;
 };
 
 app({
