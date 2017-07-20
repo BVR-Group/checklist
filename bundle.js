@@ -313,10 +313,7 @@ var Selection = function Selection(_ref) {
     var state = _ref.state,
         actions = _ref.actions;
 
-    var name = '';
-    if (state.selectedAircraft !== null) {
-        name = state.selectedAircraft.name;
-    }
+    var name = state.selectedAircraft ? state.selectedAircraft.name : '';
     return h(
         'section',
         null,
@@ -376,7 +373,7 @@ var Main = function Main(_ref3) {
             state.selectedAircraft.systems.map(function (system, index) {
                 return h(
                     Transition,
-                    { delay: index / 2 },
+                    { delay: index * 0.15, reverses: true },
                     h(List, { list: system })
                 );
             })
@@ -426,7 +423,10 @@ var ListItem = function ListItem(item, name) {
 };
 
 var Transition = function Transition(props, children) {
-    var duration = 'duration' in (props || {}) ? props.duration : 0.3;
+    var reverses = Object.keys(props || {}).filter(function (k) {
+        return k == 'reverses';
+    }).length != 0;
+    var duration = 'duration' in (props || {}) ? props.duration : 0.15;
     var delay = 'delay' in (props || {}) ? props.delay : 0;
 
     var animatedChildren = children.map(function (child) {
@@ -434,14 +434,31 @@ var Transition = function Transition(props, children) {
             transitionDuration: duration + 's',
             transitionDelay: delay + 's'
         };
+
         child.data.oncreate = function (element) {
-            element.className = 'start-transition';
+            element.className = 'transition-start';
         };
+
         child.data.oninsert = function (element) {
-            element.className = 'end-transition';
+            element.className = 'transition-end';
         };
+
+        if (reverses) {
+            var handleTransitionEnd = function handleTransitionEnd(event) {
+                if (event.target.parentNode) {
+                    event.target.parentNode.removeChild(event.target);
+                }
+                event.target.removeEventListener('transitionend', handleTransitionEnd, false);
+            };
+
+            child.data.onremove = function (element) {
+                element.className = 'transition-start';
+                element.addEventListener('transitionend', handleTransitionEnd, false);
+            };
+        }
         return child;
     });
+
     return animatedChildren;
 };
 

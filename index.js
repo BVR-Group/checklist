@@ -1,10 +1,7 @@
 import { h, app } from "hyperapp"
 
 const Selection = ({ state, actions }) => {
-    let name = ''
-    if (state.selectedAircraft !== null) {
-        name = state.selectedAircraft.name
-    }
+    let name = state.selectedAircraft ? state.selectedAircraft.name : ''
     return (
         <section>
             <h1>Aircraft</h1>
@@ -24,14 +21,14 @@ const Main = ({ state, actions }) => {
             <main>
                 <CloseButton actions={ actions } />
                 <h1>{ state.selectedAircraft.name }</h1>
-                <object type="image/svg+xml" id="svg" data={ 'aircraft/' + state.selectedAircraft.image }/>
-                
+                <object type="image/svg+xml" id="svg" data={ `aircraft/${state.selectedAircraft.image}` }/>
+
                 { state.selectedAircraft.procedures.map(procedure => (
                     <List className='procedure' list={ procedure } />
                 ))}
 
                 { state.selectedAircraft.systems.map((system, index) => (
-                    <Transition delay={index / 2}>
+                    <Transition delay={ index * 0.15 } reverses>
                         <List list={ system } />
                     </Transition>
                 ))}
@@ -62,7 +59,8 @@ const List = ({ className, list }) => (
 const ListItem = (item, name) => ([<dt>{ name }</dt>, <dd>{ item[name] }</dd>])
 
 const Transition = (props, children) => {
-    const duration = `duration` in (props || {}) ? props.duration : 0.3
+    const reverses = Object.keys(props || {}).filter(k => k == 'reverses').length != 0
+    const duration = `duration` in (props || {}) ? props.duration : 0.15
     const delay = `delay` in (props || {}) ? props.delay : 0
 
     const animatedChildren = children.map(child => {
@@ -70,14 +68,31 @@ const Transition = (props, children) => {
             transitionDuration: `${duration}s`,
             transitionDelay: `${delay}s`
         }
+
         child.data.oncreate = element => {
-            element.className = 'start-transition'
+            element.className = 'transition-start'
         }
+
         child.data.oninsert = element => {
-            element.className = 'end-transition'
+            element.className = 'transition-end'
+        }
+
+        if (reverses) {
+            function handleTransitionEnd(event) {
+                if (event.target.parentNode) {
+                    event.target.parentNode.removeChild(event.target)
+                }
+                event.target.removeEventListener('transitionend', handleTransitionEnd, false)
+            }
+
+            child.data.onremove = element => {
+                element.className = 'transition-start'
+                element.addEventListener('transitionend', handleTransitionEnd, false)
+            }
         }
         return child
     })
+
     return animatedChildren
 }
 
@@ -114,7 +129,7 @@ app({
 
         chooseAircraft: (state, actions, choice) => {
             const aircraft = choice !== undefined ? state.aircraft.filter( value => value.name == choice )[0] : null
-            return { selectedAircraft: aircraft } 
+            return { selectedAircraft: aircraft }
         }
     },
 
