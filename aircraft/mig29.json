@@ -3,13 +3,12 @@
   "image": "mig29.svg",
   "procedures": [
     {
-      "name": "Power Up",
+      "name": "Cold Start",
       "items": [
-        {"Electric Power Switch - On": "RShift - L"},
+        {"Electric Power Switch - On": "RShift-L"},
         {"Throttle - Idle": ""},
-        {"Engine Left Start": "RAlt - Home"},
-        {"Engine Right Start": "RCtrl - Home"},
-        {"Canopy Close": "LCtrl - C"}
+        {"Engines Start":"RShift-Home"},
+        {"Canopy Close": "LCtrl-C"}
       ]
     }
   ],
@@ -17,14 +16,64 @@
     {
       "name": "Engines",
       "items": [
-        {"Engine Left Start " :"RAlt - Home"},
-        {"Engine Left Stop" :"RAlt - End"},
-        {"Engine Right Start" :"RCtrl - Home"},
-        {"Engine Right Stop " :"RCtrl - End"},
-        {"Engines Start" :"RShift - Home"},
-        {"Engines Stop" :"RShift - End"},
+        {"Engine Left Start " :"RAlt-Home"},
+        {"Engine Left Stop" :"RAlt-End"},
+        {"Engine Right Start" :"RCtrl-Home"},
+        {"Engine Right Stop " :"RCtrl-End"},
+        {"Engines Start" :"RShift-Home"},
+        {"Engines Stop" :"RShift-End"},
         {"Fuel Dump": "R"},
-        {"Jettison Fuel Tanks": "LAlt - R"}
+        {"Jettison Fuel Tanks": "LAlt-R"}
+      ]
+    },
+    {
+      "name": "Systems",
+      "items": [
+        {"Flaps Up/Down": "F"},
+        {"Landing Gear Up/Down": "G"},
+        {"Wheel Brake On": "W"},
+        {"Flaps Up/Down": "F"},
+        {"Flaps Landing Position": "LShift-F"},
+        {"Airbrake On/Off": "B"},
+        {"Drag Chute": "P"},
+        {"Gear Light Near/Far/Off": "RAlt-L"},
+        {"Canopy Open/Close": "LCtrl-C"}
+      ]
+    },
+    {
+      "name": "Radar",
+      "items": [
+        {"Radar On/Off": "I"},
+        {"TWS Mode": "RShift-I"},
+        {"Range Scale": "+ -"},
+        {"Cursor Movement": "; , . /"},
+        {"Expected Range Scale Increase": "RCtrl-="},
+        {"Expected Range Scale Decrease": "RCtrl--"},
+        {"Expected Relative Altitude Increase": "RCtrl-;"},
+        {"Expected Relative Altitude Decrease": "RCtrl-."},
+        {"Release": "Q"},
+        {"ECM": "E"}
+      ]
+    },
+    {
+      "name": "Weapons",
+      "items": [
+        {"Cycle Pylons": "D"},
+        {"Internal Gun": "C"},
+        {"Weapons Jettison": "LCtrl-W"},
+        {"Smoke": "T"}
+      ]
+    },
+    {
+      "name": "Countermeasures",
+      "items": [
+        {"RWR Mode Select": "RShift-R"},
+        {"RWR Volume Raise/Lower": "RAlt-,/RAlt-."},
+        {"Chaff Dispense": "Insert"},
+        {"Continuously Dispense": "LShift-Q"},
+        {"Flares Dispense": "Delete"},
+        {"Release": "Q"},
+        {"ECM": "E"}
       ]
     },
     {
@@ -38,20 +87,10 @@
         {"(6) Longitudinal Missile Aiming Mode": "6"},
         {"(7) Air-To-Ground Mode": "7"},
         {"(8) Gunsight Reticle Switch": "8"},
-        {"HUD Brightness down": "RAlt - RShift - H"},
-        {"HUD Brightness up": "RCtrl - RShift - H"},
-        {"HUD Color": "RCtrl - H"},
-        {"HUD Filter On Off": "RShift - H"}
-      ]
-    },
-    {
-      "name": "Countermeasures",
-      "items": [
-        {"Chaff Dispense": "Insert"},
-        {"Continuously Dispense": "LShift - Q"},
-        {"Flares Dispense": "Delete"},
-        {"Release": "Q"},
-        {"ECM": "E"}
+        {"HUD Brightness down": "RAlt-RShift-H"},
+        {"HUD Brightness up": "RCtrl-RShift-H"},
+        {"HUD Color": "RCtrl-H"},
+        {"HUD Filter On Off": "RShift-H"}
       ]
     }
   ]

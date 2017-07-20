@@ -373,7 +373,7 @@ var Main = function Main(_ref3) {
             state.selectedAircraft.systems.map(function (system, index) {
                 return h(
                     Transition,
-                    { delay: index * 0.15, reverses: true },
+                    { delay: index * 0.15 },
                     h(List, { list: system })
                 );
             })

@@ -28,7 +28,7 @@ const Main = ({ state, actions }) => {
                 ))}
 
                 { state.selectedAircraft.systems.map((system, index) => (
-                    <Transition delay={ index * 0.15 } reverses>
+                    <Transition delay={ index * 0.15 }>
                         <List list={ system } />
                     </Transition>
                 ))}
