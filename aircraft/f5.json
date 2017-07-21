@@ -1,0 +1,81 @@
+{
+  "name": "F-5E II",
+  "image": "f5.svg",
+  "procedures": [
+    {
+      "name": "Start",
+      "items": [
+        {"Contact GC to place wheel chalks...": ""},
+        {"Canopy - CLOSE": "RShift - L"},
+        {"Battery - ON": ""},
+        {"L Generator - ON": ""},
+        {"R Generator - ON": ""},
+        {"O2 Supply - ON": ""},
+        {"L Boost Pump - ON": ""},
+        {"R Boost Pump - ON": ""},
+        {"Exterior Fuel CL - OFF": ""},
+        {"Exterior Fuel Pyons - OFF": ""},
+        {"Exterior Fuel Pyons - OFF": ""},
+        {"UHF Radio mode - BOTH": ""},
+        {"UHF Radio - to ATC Freq.": ""},
+        {"Contact GC to attach ext. air supply...": ""},
+        {"Contact GC to apply ext. air supply...": ""},
+        {"L Engine Start Button when LE RPMs 10%...": ""},
+        {"L Throttle - IDLE": ""},
+        {"Contact GC to apply ext. air supply...": ""},
+        {"R Engine Start Button when RE RPMs 10%...": ""},
+        {"R Throttle - IDLE": ""},
+        {"Contact GC to disconnect ext. air supply...": ""}
+      ]
+    },
+    {
+      "name": "Before Taxi",
+      "items": [
+        {"Radar Mode Selector - STBY (or OFF if sitting longer than 10m": ""},
+        {"Speed Brake - IN": ""},
+        {"Flap Thumb Switch - AUTO": ""},
+        {"Damper Switches YAW and PITCH - ON": ""},
+        {"Flight Controls - CHECK": ""},
+        {"Pitch Trim - (-6 clean, -9 full load)": ""},
+        {"Contact GC to remove wheel chalks...": ""},
+        {"Altimeter - Set Baro": ""}
+      ]
+    },
+    {
+      "name": "Taxi",
+      "items": [
+        {"Wheel Brakes - RELEASE": ""},
+        {"Nosewheel Steering - ENGAGE": ""},
+      ]
+    },
+    {
+      "name": "Before Takeoff",
+      "items": [
+        {"Nose Strut - EXTEND": ""},
+        {"Radar Mode Selector - As Required": ""},
+        {"Anti-Ice Switches - As Required": ""}
+      ]
+    },
+    {
+      "name": "Takeoff",
+      "items": [
+        {"Wheel Brakes - APPLY": ""},
+        {"Throttles - MIL": ""},
+        {"Engine Instruments - CHECK": ""},
+        {"Wheel Brakes - RELEASE": ""},
+        {"Nosewheel Steering - As Required (<65 Kn)": ""},
+        {"Nosewheel Steering - As Required (<65 Kn)": ""}
+      ]
+    }
+
+  ],
+  "systems": [
+    {
+      "name": "Engines",
+      "items": [
+        {"Engine Left Start": "RAlt - Home"},
+        {"Engine Right Start": "RCtrl - Home"}
+      ]
+    }
+  ]
+}
