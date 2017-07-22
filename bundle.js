@@ -1,4 +1,3 @@
-document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>');
 (function () {
 'use strict';
 
@@ -471,11 +470,11 @@ app({
 
     actions: {
         loadIndex: function loadIndex(state, actions) {
-            fetch('/aircraft/index.json').then(function (response) {
+            fetch('./aircraft/index.json').then(function (response) {
                 return response.json();
             }).then(function (json) {
                 return json.map(function (path) {
-                    return fetch('/aircraft/' + path).then(function (response) {
+                    return fetch('./aircraft/' + path).then(function (response) {
                         return response.json();
                     }).then(function (json) {
                         return actions.updateAircraft(json);
