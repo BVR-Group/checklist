@@ -38,7 +38,7 @@
         {"Damper Switches YAW - ON": "LAlt-LCtrl-E"},
         {"Flight Controls - CHECK": ""},
         {"Pitch Trim - (-6 clean, -9 full load)": ""},
-        {"Exterior Lights - NAV ON": "RAlt-RCtrl-P"},
+        {"Exterior Lights - TAXI ON": "LCtrl-LShift-Z"},
         {"Contact GC to remove wheel chalks...": ""},
         {"ADI - Fast Erect": "LAlt-LShift-F"},
         {"Altimeter - Set QFE": "LAlt-LShift-A / LAlt-LShift-S"}
