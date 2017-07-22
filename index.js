@@ -23,13 +23,9 @@ const Main = ({ state, actions }) => {
                 <h1>{ state.selectedAircraft.name }</h1>
                 <object type="image/svg+xml" id="svg" data={ `aircraft/${state.selectedAircraft.image}` }/>
 
-                { state.selectedAircraft.procedures.map(procedure => (
-                    <List className='procedure' list={ procedure } />
-                ))}
-
-                { state.selectedAircraft.systems.map((system, index) => (
-                    <Transition delay={ index * 0.15 }>
-                        <List list={ system } />
+                { state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map((item, index) => (
+                    <Transition delay={ index * 0.3 }>
+                        <List list={ item } />
                     </Transition>
                 ))}
             </main>

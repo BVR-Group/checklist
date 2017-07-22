@@ -1,13 +1,22 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="https://use.typekit.net/iso8obv.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <style>
+
         body {
             font-family: "orator-std";
             background-color: #1d1f21;
             color: rgb(209, 79, 65);
             font-size: 1.3rem;
+        }
+        /* Portrait */
+        @media only screen
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+            body { font-size: 0.9rem }
         }
         main {
             display: grid;
@@ -15,7 +24,7 @@
             grid-template-rows: repeat(16, 6.25%);
             max-width: 1024px;
             min-width: 360px;
-            margin: 1.5em auto;
+            margin: 1.5rem auto;
         }
         a {
             cursor: pointer;
@@ -30,7 +39,7 @@
             width: 45px;
             line-height: 45px;
             text-align: center;
-            font-size: 2em;
+            font-size: 2rem;
             z-index: 100;
         }
         h1 {
@@ -43,14 +52,14 @@
             transform: rotate(-90deg);
             transform-origin: left top 0;
             text-align: right;
-            line-height: .75em;
+            line-height: .75rem;
             margin: 0;
-            padding-top: 0.13em;
+            padding-top: 0.13rem;
         }
         section > h1 {
             background-color: rgb(209, 79, 65);
             color: #1d1f21;
-            padding-left: 0.5em;
+            padding-left: 0.5rem;
         }
         object {
             position: fixed;
@@ -80,10 +89,11 @@
             grid-column-end: 17;
             margin: 0;
             overflow: hidden;
-            font-size: 1rem;
+            font-size: .75rem;
             align-content: center;
             line-height: 1.75rem;
         }
+
         li:nth-child(4n+1), dt:nth-child(4n+1), dt:nth-child(4n+1) + dd {
             background-color: rgba(209, 79, 65, 0.15);
         }
@@ -95,10 +105,10 @@
         li a {
             display: block;
             width: 100%;
-            font-size: 1.25em;
+            font-size: 1.25rem;
         }
         section.transition-start {
-            transform: translateY(-100px);
+            transform: translateY(-300px);
             opacity: 0
         }
         section.transition-end {

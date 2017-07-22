@@ -367,14 +367,11 @@ var Main = function Main(_ref3) {
                 state.selectedAircraft.name
             ),
             h('object', { type: 'image/svg+xml', id: 'svg', data: 'aircraft/' + state.selectedAircraft.image }),
-            state.selectedAircraft.procedures.map(function (procedure) {
-                return h(List, { className: 'procedure', list: procedure });
-            }),
-            state.selectedAircraft.systems.map(function (system, index) {
+            state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map(function (item, index) {
                 return h(
                     Transition,
-                    { delay: index * 0.15 },
-                    h(List, { list: system })
+                    { delay: index * 0.3 },
+                    h(List, { list: item })
                 );
             })
         );

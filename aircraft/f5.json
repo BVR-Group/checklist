@@ -6,25 +6,25 @@
       "name": "Start",
       "items": [
         {"Contact GC to place wheel chalks...": ""},
-        {"Canopy - CLOSE": "RShift - L"},
-        {"Battery - ON": ""},
-        {"L Generator - ON": ""},
-        {"R Generator - ON": ""},
-        {"O2 Supply - ON": ""},
-        {"L Boost Pump - ON": ""},
-        {"R Boost Pump - ON": ""},
-        {"Exterior Fuel CL - OFF": ""},
-        {"Exterior Fuel Pyons - OFF": ""},
-        {"Exterior Fuel Pyons - OFF": ""},
+        {"Canopy - CLOSE": "LCtrl-C"},
+        {"Battery - ON": "RCtrl-RShift-B"},
+        {"L Generator - ON": "RCtrl-RShift-H"},
+        {"R Generator - ON": "RCtrl-RShift-J"},
+        {"O2 Supply - ON": "RCtrl-P"},
+        {"Ext. Lights - BEACON ON": "RAlt-RCtrl-P"},
+        {"L Boost Pump - ON": "RCtrl-RShift-Y"},
+        {"R Boost Pump - ON": "RCtrl-RShift-I"},
+        {"Ext. Fuel CL - OFF": "RCtrl-RShift-R"},
+        {"Ext. Fuel Pylons - OFF": "RCtrl-RShift-T"},
         {"UHF Radio mode - BOTH": ""},
         {"UHF Radio - to ATC Freq.": ""},
         {"Contact GC to attach ext. air supply...": ""},
         {"Contact GC to apply ext. air supply...": ""},
         {"L Engine Start Button when LE RPMs 10%...": ""},
-        {"L Throttle - IDLE": ""},
+        {"L Throttle - IDLE": "RAlt-Home"},
         {"Contact GC to apply ext. air supply...": ""},
         {"R Engine Start Button when RE RPMs 10%...": ""},
-        {"R Throttle - IDLE": ""},
+        {"R Throttle - IDLE": "RShift-Home"},
         {"Contact GC to disconnect ext. air supply...": ""}
       ]
     },
@@ -32,49 +32,83 @@
       "name": "Before Taxi",
       "items": [
         {"Radar Mode Selector - STBY (or OFF if sitting longer than 10m": ""},
-        {"Speed Brake - IN": ""},
-        {"Flap Thumb Switch - AUTO": ""},
-        {"Damper Switches YAW and PITCH - ON": ""},
+        {"Speed Brake - IN": "LCtrl-B"},
+        {"Flap Thumb Switch - AUTO": "F"},
+        {"Damper Switches PITCH - ON": "LAlt-LCtrl-W"},
+        {"Damper Switches YAW - ON": "LAlt-LCtrl-E"},
         {"Flight Controls - CHECK": ""},
         {"Pitch Trim - (-6 clean, -9 full load)": ""},
+        {"Exterior Lights - NAV ON": "RAlt-RCtrl-P"},
         {"Contact GC to remove wheel chalks...": ""},
-        {"Altimeter - Set Baro": ""}
+        {"ADI - Fast Erect": "LAlt-LShift-F"},
+        {"Altimeter - Set QFE": "LAlt-LShift-A / LAlt-LShift-S"}
       ]
     },
     {
       "name": "Taxi",
       "items": [
-        {"Wheel Brakes - RELEASE": ""},
-        {"Nosewheel Steering - ENGAGE": ""},
+        {"Wheel Brakes - RELEASE": "W"},
+        {"Nosewheel Steering - ENGAGE": "S"}
       ]
     },
     {
       "name": "Before Takeoff",
       "items": [
-        {"Nose Strut - EXTEND": ""},
-        {"Radar Mode Selector - As Required": ""},
-        {"Anti-Ice Switches - As Required": ""}
+        {"Nose Strut - EXTEND":  "LAlt-LCtrl-Q"},
+        {"Radar Mode Selector - As Required": "9 / 0"},
+        {"Anti-Ice Switches - As Required": "RCtrl-RShift-G"}
       ]
     },
     {
       "name": "Takeoff",
       "items": [
-        {"Wheel Brakes - APPLY": ""},
+        {"Wheel Brakes - APPLY": "W"},
         {"Throttles - MIL": ""},
         {"Engine Instruments - CHECK": ""},
         {"Wheel Brakes - RELEASE": ""},
-        {"Nosewheel Steering - As Required (<65 Kn)": ""},
         {"Nosewheel Steering - As Required (<65 Kn)": ""}
       ]
+    },
+    {
+      "name": "After Takeoff",
+      "items": [
+        {"Ext. Fuel Pylons - As Required": "RCtrl-RShift-T"},
+        {"Autobalance Switch - LEFT": "RCtrl-RShift-["}
+      ]
     }
-
   ],
   "systems": [
     {
       "name": "Engines",
       "items": [
-        {"Engine Left Start": "RAlt - Home"},
-        {"Engine Right Start": "RCtrl - Home"}
+        {"Left Engine Start": "LCtrl-LShift-C"},
+        {"Left Fuel Shutoff Switch": "Ctrl-LShift-N"},
+        {"Right Engine Start": "LCtrl-LShift-V"},
+        {"Right Fuel Shutoff Switch": "Ctrl-LShift-J"}
+      ]
+    },
+    {
+      "name": "Radar",
+      "items": [
+        {"Radar Mode Selector": "0"},
+        {"Radar Range Selector Increase/Decrease": "= / -"},
+        {"Radar TDC Up/Down/Left/Right": "; / . / , / /"},
+        {"Radar Pitch Knob Up/Down": "RShift-R / RShift-T"},
+        {"Dogfight/Resume Search Switch - FORWARD (DM)": "5"},
+        {"Dogfight/Resume Search Switch - CP (RESUME SEARCH)": "R"}
+      ]
+    },
+    {
+      "name": "Weapons",
+      "items": [
+        {"Engine Left Start": "RAlt - Home"}
+      ]
+    },
+    {
+      "name": "Countermeasures",
+      "items": [
+        {"Flare-Chaff Button": "Q"},
+        {"RWR Indicator Control ACT/PWR Button":  "RAlt-O"}
       ]
     }
   ]
