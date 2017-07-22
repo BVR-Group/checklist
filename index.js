@@ -106,11 +106,11 @@ app({
 
     actions: {
         loadIndex: (state, actions) => {
-            fetch('/aircraft/index.json')
+            fetch('./aircraft/index.json')
             .then(response => response.json())
             .then(json =>
                 json.map(path =>
-                    fetch(`/aircraft/${path}`)
+                    fetch(`./aircraft/${path}`)
                     .then(response => response.json())
                     .then(json => actions.updateAircraft(json))
                 )
