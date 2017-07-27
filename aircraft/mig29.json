@@ -3,7 +3,7 @@
   "image": "mig29.svg",
   "procedures": [
     {
-      "name": "Cold Start",
+      "name": "Start",
       "items": [
         {"Electric Power Switch - On": "RShift-L"},
         {"Throttle - Idle": ""},

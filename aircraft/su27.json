@@ -3,7 +3,7 @@
   "image": "su27.svg",
   "procedures": [
     {
-      "name": "Power Up",
+      "name": "Start",
       "items": [
         {"Electric Power Switch": "RShift - L"},
         {"Throttle - Idle": ""},
