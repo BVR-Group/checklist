@@ -1,0 +1,29 @@
+{
+  "name": "P-51D",
+  "image": "",
+  "procedures": [
+    {
+      "name": "Start",
+      "items": [
+        {"Rudder Trim - 6° right": "RCtrl-X"},
+        {"Flaps - FULL UP": "LShift-F"},
+        {"Canopy - CLOSE": "LShift-C"},
+        {"Propellor Control - FULL FORWARD": ""},
+        {"Mixture - IDLE CUTOFF": "M"},
+        {"Parking Brakes - Set": ""},
+        {"Battery Switch - ON": "B"},
+        {"Generator Switch - ON": "V"},
+        {"Fuel Shut-Off Valve - ON": "LeftCtrl-LShift-T"},
+        {"Ignition Switch - BOTH": "RCtrl-End"},
+        {"Fuel Booster Switch - ON": "Del"},
+        {"Throttle - OPEN 1 Inch": ""},
+        {"Ram Air Control Carb. - RAM AIR": ""},
+        {"Hold Primer Switch Up For Three Seconds...": "Insert"},
+        {"Lift Starter Switch Cover...": "RShift-Home"},
+        {"And Hold Start Switch UP...": "Home"},
+        {"While Holding Starter Switch, set Mixture Control - RUN": "M"}
+      ]
+    }
+  ],
+  "systems": []
+}

@@ -116,7 +116,7 @@ app({
             .then(response => response.json())
             .then(json =>
                 json.map(path =>
-                    fetch(`./aircraft/${path}`)
+                    fetch(`./aircraft/${path}.json`)
                     .then(response => response.json())
                     .then(json => actions.updateAircraft(json))
                 )
@@ -125,7 +125,17 @@ app({
 
         updateAircraft: (state, actions, json) => {
             state.aircraft.push(json)
-            state.aircraft.sort()
+            state.aircraft.sort((a, b) => {
+                const nameA = a.name.toLowerCase()
+                const nameB = b.name.toLowerCase()
+                if (nameA < nameB) {
+                    return -1
+                }
+                if (nameA > nameB) {
+                    return 1
+                }
+                return 0
+            })
             return { aircraft : state.aircraft }
         },
 

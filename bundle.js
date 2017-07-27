@@ -550,7 +550,7 @@ app({
                 return response.json();
             }).then(function (json) {
                 return json.map(function (path) {
-                    return index('./aircraft/' + path).then(function (response) {
+                    return index('./aircraft/' + path + '.json').then(function (response) {
                         return response.json();
                     }).then(function (json) {
                         return actions.updateAircraft(json);
@@ -561,7 +561,17 @@ app({
 
         updateAircraft: function updateAircraft(state, actions, json) {
             state.aircraft.push(json);
-            state.aircraft.sort();
+            state.aircraft.sort(function (a, b) {
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
             return { aircraft: state.aircraft };
         },
 
