@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "hyperapp": "^0.10.0"
+    "hyperapp": "^0.10.0",
+    "unfetch": "^3.0.0"
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.24.1",

@@ -308,6 +308,77 @@ function app(app) {
   }
 }
 
+var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) {
+	options = options || {};
+	return new Promise(function (resolve, reject) {
+		var request = new XMLHttpRequest();
+
+		request.open(options.method || 'get', url);
+
+		for (var i in options.headers) {
+			request.setRequestHeader(i, options.headers[i]);
+		}
+
+		request.withCredentials = options.credentials == 'include';
+
+		request.onload = function () {
+			resolve(response());
+		};
+
+		request.onerror = reject;
+
+		request.send(options.body);
+
+		function response() {
+			var _keys = [],
+			    all = [],
+			    headers = {},
+			    header;
+
+			request.getAllResponseHeaders().replace(/^(.*?):\s*([\s\S]*?)$/gm, function (m, key, value) {
+				_keys.push(key = key.toLowerCase());
+				all.push([key, value]);
+				header = headers[key];
+				headers[key] = header ? header + "," + value : value;
+			});
+
+			return {
+				ok: (request.status / 200 | 0) == 1, // 200-299
+				status: request.status,
+				statusText: request.statusText,
+				url: request.responseURL,
+				clone: response,
+				text: function text() {
+					return Promise.resolve(request.responseText);
+				},
+				json: function json() {
+					return Promise.resolve(request.responseText).then(JSON.parse);
+				},
+				blob: function blob() {
+					return Promise.resolve(new Blob([request.response]));
+				},
+				headers: {
+					keys: function keys() {
+						return _keys;
+					},
+					entries: function entries() {
+						return all;
+					},
+					get: function get(n) {
+						return headers[n.toLowerCase()];
+					},
+					has: function has(n) {
+						return n.toLowerCase() in headers;
+					}
+				}
+			};
+		}
+	});
+};
+
+
+//# sourceMappingURL=unfetch.es.js.map
+
 var Selection = function Selection(_ref) {
     var state = _ref.state,
         actions = _ref.actions;
@@ -366,10 +437,10 @@ var Main = function Main(_ref3) {
                 state.selectedAircraft.name
             ),
             h('object', { type: 'image/svg+xml', id: 'svg', data: 'aircraft/' + state.selectedAircraft.image }),
-            state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map(function (item, index) {
+            state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map(function (item, index$$1) {
                 return h(
                     Transition,
-                    { delay: index * 0.3 },
+                    { delay: index$$1 * 0.3 },
                     h(List, { list: item })
                 );
             })
@@ -395,7 +466,7 @@ var List = function List(_ref4) {
             list.name
         ),
         h(
-            'dl',
+            'table',
             null,
             list.items.map(function (item) {
                 return Object.keys(item).map(function (key) {
@@ -407,15 +478,20 @@ var List = function List(_ref4) {
 };
 
 var ListItem = function ListItem(item, name) {
-    return [h(
-        'dt',
+    return h(
+        'tr',
         null,
-        name
-    ), h(
-        'dd',
-        null,
-        item[name]
-    )];
+        h(
+            'td',
+            null,
+            name
+        ),
+        h(
+            'td',
+            null,
+            item[name]
+        )
+    );
 };
 
 var Transition = function Transition(props, children) {
@@ -470,11 +546,11 @@ app({
 
     actions: {
         loadIndex: function loadIndex(state, actions) {
-            fetch('./aircraft/index.json').then(function (response) {
+            index('./aircraft/index.json').then(function (response) {
                 return response.json();
             }).then(function (json) {
                 return json.map(function (path) {
-                    return fetch('./aircraft/' + path).then(function (response) {
+                    return index('./aircraft/' + path).then(function (response) {
                         return response.json();
                     }).then(function (json) {
                         return actions.updateAircraft(json);

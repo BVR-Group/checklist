@@ -18,6 +18,7 @@
         and (orientation: portrait) {
             body { font-size: 0.9rem }
         }
+
         main {
             display: grid;
             grid-template-columns: repeat(16, 6.25%);
@@ -93,8 +94,13 @@
             align-content: center;
             line-height: 1.75rem;
         }
-
-        li:nth-child(4n+1), dt:nth-child(4n+1), dt:nth-child(4n+1) + dd {
+        table {
+            width: 100%;
+        }
+        table tr > td:nth-of-type(1) {
+            width: 75%;
+        }
+        li:nth-of-type(odd), tr:nth-of-type(odd) {
             background-color: rgba(209, 79, 65, 0.15);
         }
         ul {
@@ -102,10 +108,13 @@
             padding: 0;
             margin: 0;
         }
+        li {
+            margin-bottom: 1em;
+        }
         li a {
             display: block;
             width: 100%;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
         section.transition-start {
             transform: translateY(-300px);
@@ -114,6 +123,15 @@
         section.transition-end {
             transform: translateY(0);
             opacity: 1.0
+        }
+        @supports not (display: grid) {
+            main {
+                margin: 1em auto;
+                width: 85%;
+            }
+            main > h1 {
+                left: 0.5em;
+            }
         }
     </style>
 </head>

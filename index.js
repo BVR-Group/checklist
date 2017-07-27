@@ -1,4 +1,5 @@
-import { h, app } from "hyperapp"
+import { h, app } from 'hyperapp'
+import fetch from 'unfetch'
 
 const Selection = ({ state, actions }) => {
     let name = state.selectedAircraft ? state.selectedAircraft.name : ''
@@ -42,17 +43,22 @@ const Main = ({ state, actions }) => {
 const List = ({ className, list }) => (
     <section class={ className }>
         <h1>{ list.name }</h1>
-        <dl>
+        <table>
             { list.items.map(item =>
                 Object.keys(item).map(key =>
                     ListItem(item, key)
                 )
             )}
-        </dl>
+        </table>
     </section>
 )
 
-const ListItem = (item, name) => ([<dt>{ name }</dt>, <dd>{ item[name] }</dd>])
+const ListItem = (item, name) => (
+    <tr>
+        <td>{ name }</td>
+        <td>{ item[name] }</td>
+    </tr>
+)
 
 const Transition = (props, children) => {
     const reverses = Object.keys(props || {}).filter(k => k == 'reverses').length != 0

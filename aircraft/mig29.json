@@ -49,8 +49,8 @@
         {"Cursor Movement": "; , . /"},
         {"Expected Range Scale Increase": "RCtrl-="},
         {"Expected Range Scale Decrease": "RCtrl--"},
-        {"Expected Relative Altitude Increase": "RCtrl-;"},
-        {"Expected Relative Altitude Decrease": "RCtrl-."},
+        {"Expected Relative Altitude Increase": "RShift-;"},
+        {"Expected Relative Altitude Decrease": "RShift-."},
         {"Release": "Q"},
         {"ECM": "E"}
       ]
