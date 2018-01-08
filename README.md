@@ -7,7 +7,7 @@ A checklist web app for DCS. Use to help look up various hotkeys, or complete a 
 - Make desired changes.
 - Open a pull request and wait for review.
 
-If a change is accepted it will be merged and will go live in a matter of minutes.
+If a change is accepted it will be merged and will go live in a matter of minutes at [http://bvr.group/checklist](http://bvr.group/checklist).
 
 ### Getting Started
 - **Install dependencies** - Installs everything you need to start working.
@@ -26,6 +26,14 @@ If a change is accepted it will be merged and will go live in a matter of minute
 ## JSON Files
 - All lists are located in the ```/aircraft``` directory in their relevant json file.
 - ```/aircraft/index.json``` is the index of available JSON files to load.
+
+| Entry | Type | Description|
+|---|---|---|
+| `name` | `string` | The name of the aircraft covered by this JSON. Shown on the index view.
+| `image` | `string` | An image that will be shown in the background of the checklist. **A black SVG is preferred.**|
+| `item` | `{ string, string }` | Represents an item in a `procedures` or `systems` array. The first `string` is the label, the second is a shortcut key or can be some text value. |
+| `procedures` | `array` of `items` | For quick reference of procedures and the corresponding shortcut keys. |
+| `systems` | `array` of `items` | For quick reference of specific shortcut keys related to a system.
 
 ## Adding an Aircraft
 - Create a ```<newAircraft-name>.json``` in the ```/aircraft ``` directory.
