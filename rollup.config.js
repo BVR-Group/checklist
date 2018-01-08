@@ -1,19 +1,22 @@
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
-// import uglify from "rollup-plugin-uglify"
-import serve from 'rollup-plugin-serve'
 
 export default {
+  input: 'index.js',
+  output: {
+    'file': 'bundle.js',
+    'format': 'iife'
+  },
   plugins: [
     babel({
       babelrc: false,
       plugins: [
-        ["transform-react-jsx", { pragma: "h" }]
+        ['transform-react-jsx', { pragma: 'h' }]
       ]
     }),
     resolve({
       jsnext: true
-    }),
-    serve()
-  ]
+    })
+  ],
+  sourcemap: true
 }

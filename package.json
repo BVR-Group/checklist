@@ -10,18 +10,20 @@
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "livereload": "^0.6.2",
-    "rollup": "^0.45.1",
+    "date-fns": "^1.29.0",
+    "npm-run-all": "^4.1.2",
+    "rollup": "^0.5",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-serve": "^0.4.0",
     "rollup-plugin-uglify": "^2.0.1",
-    "rollup-watch": "^4.3.1"
+    "serve": "^6.4.4"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "BVR",
+  "license": "MIT",
   "scripts": {
-    "build": "rollup -cf iife -i index.js -o bundle.js",
-    "dev": "rollup -cf iife -w -i index.js -o bundle.js"
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "start": "serve ."
   }
 }

@@ -374,11 +374,7 @@ var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) 
 	});
 };
 
-
-//# sourceMappingURL=unfetch.es.js.map
-
 const Selection = ({ state, actions }) => {
-    let name = state.selectedAircraft ? state.selectedAircraft.name : '';
     return h(
         'section',
         null,
@@ -559,3 +555,4 @@ app({
 });
 
 }());
+//# sourceMappingURL=bundle.js.map
