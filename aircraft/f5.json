@@ -101,7 +101,8 @@
     {
       "name": "Weapons",
       "items": [
-        {"Engine Left Start": "RAlt - Home"}
+        {"Bomb-Rocket": "RAlt+Space"},
+        {"Trigger": "Space"}
       ]
     },
     {
