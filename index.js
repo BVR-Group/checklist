@@ -4,7 +4,7 @@ import fetch from 'unfetch'
 const Selection = ({ state, actions }) => {
     let name = state.selectedAircraft ? state.selectedAircraft.name : ''
     return (
-        <section>
+        <section class="aircraftList">
             <h1>Aircraft</h1>
             <ul>
             { state.aircraft.map(aircraft =>

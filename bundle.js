@@ -377,7 +377,7 @@ var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) 
 const Selection = ({ state, actions }) => {
     return h(
         'section',
-        null,
+        { 'class': 'aircraftList' },
         h(
             'h1',
             null,
