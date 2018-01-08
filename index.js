@@ -14,6 +14,7 @@ const Selection = ({ state, actions }) => {
         </section>
     )
 }
+
 const CloseButton = ({ actions }) => (<a class='closeButton' onclick={ _ => actions.chooseAircraft() }>&#x2715;</a>)
 
 const Main = ({ state, actions }) => {
@@ -25,16 +26,20 @@ const Main = ({ state, actions }) => {
                 <object type="image/svg+xml" id="svg" data={ `aircraft/${state.selectedAircraft.image}` }/>
 
                 { state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map((item, index) => (
-                    <Transition delay={ index * 0.3 }>
+                    <Transition delay={ index * 0.15 }>
                         <List list={ item } />
                     </Transition>
                 ))}
+
+                <a class="bvr" href="https://bvr.design"><img src="./bvr.png"/></a>
             </main>
         )
     } else {
         return (
             <main>
                 <Selection state={ state } actions={ actions }/>
+
+                <a class="bvr" href="https://bvr.design"><img src="./bvr.png"/></a>
             </main>
         )
     }

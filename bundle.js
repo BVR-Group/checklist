@@ -30,12 +30,6 @@ function h(tag, data) {
   } : tag(data, children);
 }
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
 function app(app) {
   var state = {};
   var actions = {};
@@ -121,18 +115,16 @@ function app(app) {
   }
 
   function emit(name, data) {
-    (events[name] || []).map(function (cb) {
+    return (events[name] || []).map(function (cb) {
       var result = cb(state, actions, data);
       if (result != null) {
         data = result;
       }
-    });
-
-    return data;
+    }), data;
   }
 
   function merge(a, b) {
-    if ((typeof b === "undefined" ? "undefined" : _typeof(b)) !== "object") {
+    if (typeof b !== "object") {
       return b;
     }
 
@@ -147,6 +139,12 @@ function app(app) {
     }
 
     return obj;
+  }
+
+  function getKey(node) {
+    if (node && (node = node.data)) {
+      return node.key;
+    }
   }
 
   function createElement(node, isSVG) {
@@ -174,7 +172,9 @@ function app(app) {
   }
 
   function setElementData(element, name, value, oldValue) {
-    if (name === "key") {} else if (name === "style") {
+    if (name === "key" || name === "oncreate" || name === "oninsert" || name === "onupdate" || name === "onremove") {
+      return name;
+    } else if (name === "style") {
       for (var i in merge(oldValue, value = value || {})) {
         element.style[i] = value[i] || "";
       }
@@ -193,37 +193,36 @@ function app(app) {
     }
   }
 
-  function updateElementData(element, oldData, data) {
+  function updateElementData(element, oldData, data, cb) {
     for (var name in merge(oldData, data)) {
       var value = data[name];
-      var oldValue = name === "value" || name === "checked" ? element[name] : oldData[name];
+      var oldValue = oldData[name];
 
-      if (name === "onupdate" && value) {
-        value(element);
-      } else if (value !== oldValue) {
-        setElementData(element, name, value, oldValue);
+      if (value !== oldValue && value !== element[name] && setElementData(element, name, value, oldValue) == null) {
+        cb = data.onupdate;
       }
     }
-  }
 
-  function getKey(node) {
-    if (node && (node = node.data)) {
-      return node.key;
+    if (cb != null) {
+      cb(element);
     }
   }
 
-  function removeElement(parent, element, node) {
-    (node.data && node.data.onremove || removeChild)(element, removeChild);
-    function removeChild() {
+  function removeElement(parent, element, data) {
+    if (data && data.onremove) {
+      data.onremove(element);
+    } else {
       parent.removeChild(element);
     }
   }
 
-  function patch(parent, element, oldNode, node) {
+  function patch(parent, element, oldNode, node, isSVG, lastElement) {
     if (oldNode == null) {
-      element = parent.insertBefore(createElement(node), element);
-    } else if (node.tag && node.tag === oldNode.tag) {
+      element = parent.insertBefore(createElement(node, isSVG), element);
+    } else if (node.tag != null && node.tag === oldNode.tag) {
       updateElementData(element, oldNode.data, node.data);
+
+      isSVG = isSVG || node.tag === "svg";
 
       var len = node.children.length;
       var oldLen = oldNode.children.length;
@@ -263,19 +262,19 @@ function app(app) {
 
         if (null == newKey) {
           if (null == oldKey) {
-            patch(element, oldElement, oldChild, newChild);
+            patch(element, oldElement, oldChild, newChild, isSVG);
             j++;
           }
           i++;
         } else {
           if (oldKey === newKey) {
-            patch(element, reusableChild[0], reusableChild[1], newChild);
+            patch(element, reusableChild[0], reusableChild[1], newChild, isSVG);
             i++;
           } else if (reusableChild[0]) {
             element.insertBefore(reusableChild[0], oldElement);
-            patch(element, reusableChild[0], reusableChild[1], newChild);
+            patch(element, reusableChild[0], reusableChild[1], newChild, isSVG);
           } else {
-            patch(element, oldElement, null, newChild);
+            patch(element, oldElement, null, newChild, isSVG);
           }
 
           j++;
@@ -287,7 +286,7 @@ function app(app) {
         var oldChild = oldNode.children[i];
         var oldKey = getKey(oldChild);
         if (null == oldKey) {
-          removeElement(element, oldElements[i], oldChild);
+          removeElement(element, oldElements[i], oldChild.data);
         }
         i++;
       }
@@ -296,12 +295,11 @@ function app(app) {
         var reusableChild = reusableChildren[i];
         var reusableNode = reusableChild[1];
         if (!newKeys[reusableNode.data.key]) {
-          removeElement(element, reusableChild[0], reusableNode);
+          removeElement(element, reusableChild[0], reusableNode.data);
         }
       }
-    } else if (node !== oldNode) {
-      var i = element;
-      parent.replaceChild(element = createElement(node), i);
+    } else if ((lastElement = element) != null && node !== oldNode && node !== element.nodeValue) {
+      parent.replaceChild(element = createElement(node, isSVG), lastElement);
     }
 
     return element;
@@ -330,13 +328,13 @@ var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) 
 		request.send(options.body);
 
 		function response() {
-			var _keys = [],
+			var keys = [],
 			    all = [],
 			    headers = {},
 			    header;
 
 			request.getAllResponseHeaders().replace(/^(.*?):\s*([\s\S]*?)$/gm, function (m, key, value) {
-				_keys.push(key = key.toLowerCase());
+				keys.push(key = key.toLowerCase());
 				all.push([key, value]);
 				header = headers[key];
 				headers[key] = header ? header + "," + value : value;
@@ -348,26 +346,26 @@ var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) 
 				statusText: request.statusText,
 				url: request.responseURL,
 				clone: response,
-				text: function text() {
+				text: function () {
 					return Promise.resolve(request.responseText);
 				},
-				json: function json() {
+				json: function () {
 					return Promise.resolve(request.responseText).then(JSON.parse);
 				},
-				blob: function blob() {
+				blob: function () {
 					return Promise.resolve(new Blob([request.response]));
 				},
 				headers: {
-					keys: function keys() {
-						return _keys;
+					keys: function () {
+						return keys;
 					},
-					entries: function entries() {
+					entries: function () {
 						return all;
 					},
-					get: function get(n) {
+					get: function (n) {
 						return headers[n.toLowerCase()];
 					},
-					has: function has(n) {
+					has: function (n) {
 						return n.toLowerCase() in headers;
 					}
 				}
@@ -379,11 +377,8 @@ var index = typeof fetch == 'function' ? fetch.bind() : function (url, options) 
 
 //# sourceMappingURL=unfetch.es.js.map
 
-var Selection = function Selection(_ref) {
-    var state = _ref.state,
-        actions = _ref.actions;
-
-    var name = state.selectedAircraft ? state.selectedAircraft.name : '';
+const Selection = ({ state, actions }) => {
+    let name = state.selectedAircraft ? state.selectedAircraft.name : '';
     return h(
         'section',
         null,
@@ -395,37 +390,26 @@ var Selection = function Selection(_ref) {
         h(
             'ul',
             null,
-            state.aircraft.map(function (aircraft) {
-                return h(
-                    'li',
-                    null,
-                    h(
-                        'a',
-                        { onclick: function onclick(_) {
-                                return actions.chooseAircraft(aircraft.name);
-                            } },
-                        aircraft.name
-                    )
-                );
-            })
+            state.aircraft.map(aircraft => h(
+                'li',
+                null,
+                h(
+                    'a',
+                    { onclick: _ => actions.chooseAircraft(aircraft.name) },
+                    aircraft.name
+                )
+            ))
         )
     );
 };
-var CloseButton = function CloseButton(_ref2) {
-    var actions = _ref2.actions;
-    return h(
-        'a',
-        { 'class': 'closeButton', onclick: function onclick(_) {
-                return actions.chooseAircraft();
-            } },
-        '\u2715'
-    );
-};
 
-var Main = function Main(_ref3) {
-    var state = _ref3.state,
-        actions = _ref3.actions;
+const CloseButton = ({ actions }) => h(
+    'a',
+    { 'class': 'closeButton', onclick: _ => actions.chooseAircraft() },
+    '\u2715'
+);
 
+const Main = ({ state, actions }) => {
     if (state.selectedAircraft != null) {
         return h(
             'main',
@@ -436,94 +420,90 @@ var Main = function Main(_ref3) {
                 null,
                 state.selectedAircraft.name
             ),
-            h('object', { type: 'image/svg+xml', id: 'svg', data: 'aircraft/' + state.selectedAircraft.image }),
-            state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map(function (item, index$$1) {
-                return h(
-                    Transition,
-                    { delay: index$$1 * 0.3 },
-                    h(List, { list: item })
-                );
-            })
+            h('object', { type: 'image/svg+xml', id: 'svg', data: `aircraft/${state.selectedAircraft.image}` }),
+            state.selectedAircraft.procedures.concat(state.selectedAircraft.systems).map((item, index$$1) => h(
+                Transition,
+                { delay: index$$1 * 0.15 },
+                h(List, { list: item })
+            )),
+            h(
+                'a',
+                { 'class': 'bvr', href: 'https://bvr.design' },
+                h('img', { src: './bvr.png' })
+            )
         );
     } else {
         return h(
             'main',
             null,
-            h(Selection, { state: state, actions: actions })
+            h(Selection, { state: state, actions: actions }),
+            h(
+                'a',
+                { 'class': 'bvr', href: 'https://bvr.design' },
+                h('img', { src: './bvr.png' })
+            )
         );
     }
 };
 
-var List = function List(_ref4) {
-    var className = _ref4.className,
-        list = _ref4.list;
-    return h(
-        'section',
-        { 'class': className },
-        h(
-            'h1',
-            null,
-            list.name
-        ),
-        h(
-            'table',
-            null,
-            list.items.map(function (item) {
-                return Object.keys(item).map(function (key) {
-                    return ListItem(item, key);
-                });
-            })
-        )
-    );
-};
-
-var ListItem = function ListItem(item, name) {
-    return h(
-        'tr',
+const List = ({ className, list }) => h(
+    'section',
+    { 'class': className },
+    h(
+        'h1',
         null,
-        h(
-            'td',
-            null,
-            name
-        ),
-        h(
-            'td',
-            null,
-            item[name]
-        )
-    );
-};
+        list.name
+    ),
+    h(
+        'table',
+        null,
+        list.items.map(item => Object.keys(item).map(key => ListItem(item, key)))
+    )
+);
 
-var Transition = function Transition(props, children) {
-    var reverses = Object.keys(props || {}).filter(function (k) {
-        return k == 'reverses';
-    }).length != 0;
-    var duration = 'duration' in (props || {}) ? props.duration : 0.15;
-    var delay = 'delay' in (props || {}) ? props.delay : 0;
+const ListItem = (item, name) => h(
+    'tr',
+    null,
+    h(
+        'td',
+        null,
+        name
+    ),
+    h(
+        'td',
+        null,
+        item[name]
+    )
+);
 
-    var animatedChildren = children.map(function (child) {
+const Transition = (props, children) => {
+    const reverses = Object.keys(props || {}).filter(k => k == 'reverses').length != 0;
+    const duration = `duration` in (props || {}) ? props.duration : 0.15;
+    const delay = `delay` in (props || {}) ? props.delay : 0;
+
+    const animatedChildren = children.map(child => {
         child.data.style = {
-            transitionDuration: duration + 's',
-            transitionDelay: delay + 's'
+            transitionDuration: `${duration}s`,
+            transitionDelay: `${delay}s`
         };
 
-        child.data.oncreate = function (element) {
+        child.data.oncreate = element => {
             element.className = 'transition-start';
         };
 
-        child.data.oninsert = function (element) {
+        child.data.oninsert = element => {
             element.className = 'transition-end';
         };
 
         if (reverses) {
-            var handleTransitionEnd = function handleTransitionEnd(event) {
+            function handleTransitionEnd(event) {
                 if (event.target.parentNode) {
                     event.target.parentNode.removeChild(event.target);
                 }
                 event.target.removeEventListener('transitionend', handleTransitionEnd, false);
-            };
+            }
 
-            child.data.onremove = function (element) {
+            child.data.onremove = element => {
                 element.className = 'transition-start';
                 element.addEventListener('transitionend', handleTransitionEnd, false);
             };
@@ -540,30 +520,20 @@ app({
         selectedAircraft: null
     },
 
-    view: function view(state, actions) {
+    view: (state, actions) => {
         return h(Main, { state: state, actions: actions, electedAircraft: state.selectedAircraft });
     },
 
     actions: {
-        loadIndex: function loadIndex(state, actions) {
-            index('./aircraft/index.json').then(function (response) {
-                return response.json();
-            }).then(function (json) {
-                return json.map(function (path) {
-                    return index('./aircraft/' + path + '.json').then(function (response) {
-                        return response.json();
-                    }).then(function (json) {
-                        return actions.updateAircraft(json);
-                    });
-                });
-            });
+        loadIndex: (state, actions) => {
+            index('./aircraft/index.json').then(response => response.json()).then(json => json.map(path => index(`./aircraft/${path}.json`).then(response => response.json()).then(json => actions.updateAircraft(json))));
         },
 
-        updateAircraft: function updateAircraft(state, actions, json) {
+        updateAircraft: (state, actions, json) => {
             state.aircraft.push(json);
-            state.aircraft.sort(function (a, b) {
-                var nameA = a.name.toLowerCase();
-                var nameB = b.name.toLowerCase();
+            state.aircraft.sort((a, b) => {
+                const nameA = a.name.toLowerCase();
+                const nameB = b.name.toLowerCase();
                 if (nameA < nameB) {
                     return -1;
                 }
@@ -575,16 +545,14 @@ app({
             return { aircraft: state.aircraft };
         },
 
-        chooseAircraft: function chooseAircraft(state, actions, choice) {
-            var aircraft = choice !== undefined ? state.aircraft.filter(function (value) {
-                return value.name == choice;
-            })[0] : null;
+        chooseAircraft: (state, actions, choice) => {
+            const aircraft = choice !== undefined ? state.aircraft.filter(value => value.name == choice)[0] : null;
             return { selectedAircraft: aircraft };
         }
     },
 
     events: {
-        loaded: function loaded(state, actions) {
+        loaded: (state, actions) => {
             actions.loadIndex();
         }
     }

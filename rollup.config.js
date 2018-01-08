@@ -7,7 +7,6 @@ export default {
   plugins: [
     babel({
       babelrc: false,
-      presets: ["es2015-rollup"],
       plugins: [
         ["transform-react-jsx", { pragma: "h" }]
       ]
